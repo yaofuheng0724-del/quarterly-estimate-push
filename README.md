@@ -192,8 +192,55 @@ launchctl start com.chaitin.quarterly-estimate-push
 launchctl list | grep quarterly
 
 # 查看日志
-tail -f ~/.claude/skills/quarterly-estimate-push/logs/stdout.log# 卸载定时任务
+tail -f ~/.claude/skills/quarterly-estimate-push/logs/stdout.log
+```
+
+## 关闭与卸载
+
+### 临时暂停（保留配置，停止自动推送）
+
+```bash
+# 1. 停止 launchd 定时任务（不再自动触发）
+launchctl unload ~/Library/LaunchAgents/com.chaitin.quarterly-estimate-push.plist
+
+# 2. 取消 pmset 每日唤醒
+sudo pmset repeat cancel
+```
+
+恢复运行：
+```bash
+launchctl load ~/Library/LaunchAgents/com.chaitin.quarterly-estimate-push.plist
+sudo pmset repeat wake MTWRFSU 08:35:00   # 时间需与 config.json 中 push_time 对应
+```
+
+或直接重新运行 `bash scripts/setup.sh`，会自动恢复。
+
+### 完整卸载（删除定时任务和数据）
+
+```bash
 bash ~/.claude/skills/quarterly-estimate-push/scripts/uninstall.sh
+```
+
+卸载脚本会：
+1. 停止并卸载 launchd 定时任务
+2. 删除 plist 文件
+3. 询问是否删除快照和日志数据
+
+### 彻底删除（包括 Skill 本身）
+
+```bash
+# 1. 先运行卸载脚本
+bash ~/.claude/skills/quarterly-estimate-push/scripts/uninstall.sh
+
+# 2. 删除 Skill 目录
+rm -rf ~/.claude/skills/quarterly-estimate-push
+
+# 3. 取消 pmset 唤醒（卸载脚本不包含此步骤）
+sudo pmset repeat cancel
+
+# 4. 确认 launchd 已清理
+launchctl list | grep quarterly   # 应无输出
+ls ~/Library/LaunchAgents/ | grep quarterly   # 应无文件
 ```
 
 ## 可移植性
