@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "teams": [
+    {
+      "name": "金融头部战队",
+      "crm_group_id": "<替换为金融头部战队的CRM组ID>",
+      "dingtalk_group_ids": ["cidT7sSBbTvyRRCINcqosUizg=="]
+    },
+    {
+      "name": "战略伙伴战队",
+      "crm_group_id": "<替换为战略伙伴战队的CRM组ID>",
+      "dingtalk_group_ids": ["cidVICTgRHlL4lAgpl1jnJKEA=="]
+    }
+  ],
+  "excluded_stages": ["invalid", "lost_order"],
+  "push_time": "08:40",
+  "snapshot_dir": "~/.claude/skills/quarterly-estimate-push/snapshots",
+  "chinese_holidays": {
+    "2026": {
+      "holidays": [
+        "2026-01-01", "2026-01-02", "2026-01-03",
+        "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20",
+        "2026-05-01", "2026-05-02", "2026-05-03",
+        "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04",
+        "2026-10-05", "2026-10-06", "2026-10-07"
+      ],
+      "workday_overrides": ["2026-02-14", "2026-09-27", "2026-10-10"]
+    }
+  },
+  "message_settings": {
+    "title_template": "季度预估签约数据日报 {date}",
+    "empty_section_text": "本项无变动"
+  }
+}
